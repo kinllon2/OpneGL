@@ -1,4 +1,5 @@
 #include <glad/glad.h>
+//#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 //GLAD是用来管理OpenGL的函数指针的
 //FLEW也是用來管理Opengl的函數指針的
@@ -49,6 +50,11 @@ int main(void)
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+	// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
+    /*  glewExperimental = GL_TRUE;*/
+    // Initialize GLEW to setup the OpenGL Function pointers
+    /*glewInit();*/
+
 	//我们给GLAD传入了用来加载系统相关的OpenGL函数指针地址的函数。GLFW给我们的是glfwGetProcAddress，它根据我们编译的系统定义了正确的函数。
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
@@ -61,7 +67,7 @@ int main(void)
 
 	//vertexshader
 	//顶点着色器
-	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 	glCompileShader(vertexShader);
 
@@ -77,9 +83,9 @@ int main(void)
 
 	//Fragment Shader
 	//片段着色器
-	 unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
+	glCompileShader(fragmentShader); 
 
 	
 	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
@@ -90,7 +96,7 @@ int main(void)
 	}
 
 	//link shaders
-	unsigned int shaderProgram;
+	int shaderProgram;
 	shaderProgram = glCreateProgram();
 	glAttachShader(shaderProgram, vertexShader);
 	glAttachShader(shaderProgram, fragmentShader);
@@ -112,7 +118,7 @@ int main(void)
 		-0.5f, 0.5f, 0.0f   // 左上角
 	};
 
-	GLuint  indices[] = {  // note that we start from 0!
+	unsigned int  indices[] = {  // note that we start from 0!
 		0, 1, 3,  // first Triangle
 		1, 2, 3   // second Triangle
 	};
@@ -128,8 +134,8 @@ int main(void)
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	//glBindBuffer(GL_ARRAY_BUFFER, EBO);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
@@ -156,8 +162,8 @@ int main(void)
 		// Draw our first triangle
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		//glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
