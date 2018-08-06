@@ -10,6 +10,20 @@ void processInput(GLFWwindow *window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
+const char *vertexShaderSource = "#version 330 core\n"
+"layout (location = 0) in vec3 aPos;\n"
+"void main()\n"
+"{\n"
+"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+"}\0";
+const char *fragmentShaderSource = "#version 330 core\n"
+"out vec4 FragColor;\n"
+"void main()\n"
+"{\n"
+"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+"}\n\0";
+
+
 int main(void)
 {
 	glfwInit();
@@ -37,9 +51,76 @@ int main(void)
 	//我们给GLAD传入了用来加载系统相关的OpenGL函数指针地址的函数。GLFW给我们的是glfwGetProcAddress，它根据我们编译的系统定义了正确的函数。
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
+		cout << "Failed to initialize GLAD" << endl;
 		return -1;
 	}
+
+	//我们只需要配置顶点和片段着色器就行了。几何着色器是可选的，通常使用它默认的着色器就行了。
+
+
+	//vertexshader
+	//顶点着色器
+	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	glCompileShader(vertexShader);
+
+	//check for shader compile errors
+	int success;
+	char infoLog[512];
+	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+	if (!success)
+	{
+		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+		cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << endl;
+	}
+
+	//Fragment Shader
+	//片段着色器
+	 unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	glCompileShader(fragmentShader);
+
+	
+	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+	if (!success)
+	{
+		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+		cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << endl;
+	}
+
+	//link shaders
+	unsigned int shaderProgram;
+	shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
+
+	// check for linking errors
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+	if (!success) {
+		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+	}
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+
+	float vertices[] = {
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		0.0f,  0.5f, 0.0f
+	};
+
+	unsigned int indices[] = {  // note that we start from 0!
+		0, 1, 3,  // first Triangle
+		1, 2, 3   // second Triangle
+	};
+
+	unsigned int VBO, VAO, BEO;
+
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
 
 
 	// render loop
