@@ -1,4 +1,3 @@
 ﻿  Hellow_Window.cpp
-e:\2018.7.30-2018.8.31\opengl\opnegl\leaen_opengl\leaen_opengl\hellow_window.cpp(65): warning C4101: “BEO”: 未引用的局部变量
-e:\2018.7.30-2018.8.31\opengl\opnegl\leaen_opengl\leaen_opengl\hellow_window.cpp(65): warning C4101: “VAO”: 未引用的局部变量
+e:\2018.7.30-2018.8.31\opengl\opnegl\leaen_opengl\leaen_opengl\hellow_window.cpp(118): warning C4101: “BEO”: 未引用的局部变量
   Leaen_OpenGL.vcxproj -> E:\2018.7.30-2018.8.31\OpenGL\OpneGL\Leaen_OpenGL\Debug\Leaen_OpenGL.exe
