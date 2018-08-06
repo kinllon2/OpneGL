@@ -15,11 +15,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Hellow_Window.cpp">
-      <Filter>资源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\Dependences\GLAD\src\glad.c">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Hellow_Window.cpp">
+      <Filter>资源文件</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

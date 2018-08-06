@@ -1,24 +1,37 @@
+#include<iostream>
+
+#define GLAD_OPEN
+//#define GLEW_OPEN
+
+#define  GLEW_STATIC
+#ifdef GLAD_OPEN
 #include <glad/glad.h>
-//#include <GL/glew.h>
+#endif
+
+#ifdef GLEW_OPEN
+#include <GL/glew.h>
+#endif
+
 #include <GLFW/glfw3.h>
 //GLAD是用来管理OpenGL的函数指针的
 //FLEW也是用來管理Opengl的函數指針的
-#include<iostream>
+
 
 using namespace std;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const GLuint SCR_WIDTH = 800;
+const GLuint SCR_HEIGHT = 600;
 
-const char *vertexShaderSource = "#version 330 core\n"
+const GLchar *vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
 "void main()\n"
 "{\n"
 "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
 "}\0";
-const char *fragmentShaderSource = "#version 330 core\n"
+const GLchar *fragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColor;\n"
 "void main()\n"
 "{\n"
@@ -38,8 +51,8 @@ int main(void)
 #endif
 	
 
-	//
-	GLFWwindow* window = glfwCreateWindow(800,600,"LearnOpenGL",NULL,NULL);
+	
+	GLFWwindow* window = glfwCreateWindow(800,600,"LearnOpenGL",nullptr,nullptr);
 	if (window == NULL)
 	{
 		cout << "Failed to create GLFW window" << endl;
@@ -48,32 +61,44 @@ int main(void)
 	}
 	//Making the OpenGL context current
 	glfwMakeContextCurrent(window);
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetKeyCallback(window, key_callback);
+	//glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
 
 	// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
     /*  glewExperimental = GL_TRUE;*/
     // Initialize GLEW to setup the OpenGL Function pointers
     /*glewInit();*/
 
+#ifdef GLAD_OPEN
 	//我们给GLAD传入了用来加载系统相关的OpenGL函数指针地址的函数。GLFW给我们的是glfwGetProcAddress，它根据我们编译的系统定义了正确的函数。
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		cout << "Failed to initialize GLAD" << endl;
 		return -1;
 	}
-
+#endif
+#ifdef GLEW_OPEN
+	glewExperimental = GL_TRUE;
+	// Initialize GLEW to setup the OpenGL Function pointers
+	glewInit();
+#endif
+	int width, height;
+	glfwGetFramebufferSize(window, &width, &height);
+	glViewport(0, 0, width, height);
+	
 	//我们只需要配置顶点和片段着色器就行了。几何着色器是可选的，通常使用它默认的着色器就行了。
 
 
 	//vertexshader
 	//顶点着色器
-	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	GLuint  vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 	glCompileShader(vertexShader);
 
 	//check for shader compile errors
-	int success;
-	char infoLog[512];
+	GLint  success;
+	GLchar  infoLog[512];
 	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 	if (!success)
 	{
@@ -83,7 +108,7 @@ int main(void)
 
 	//Fragment Shader
 	//片段着色器
-	int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	GLuint  fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
 	glCompileShader(fragmentShader); 
 
@@ -96,8 +121,7 @@ int main(void)
 	}
 
 	//link shaders
-	int shaderProgram;
-	shaderProgram = glCreateProgram();
+	GLuint shaderProgram = glCreateProgram();
 	glAttachShader(shaderProgram, vertexShader);
 	glAttachShader(shaderProgram, fragmentShader);
 	glLinkProgram(shaderProgram);
@@ -111,19 +135,19 @@ int main(void)
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-	float vertices[] = {
+	GLfloat  vertices[] = {
 		0.5f, 0.5f, 0.0f,   // 右上角
 		0.5f, -0.5f, 0.0f,  // 右下角
 		-0.5f, -0.5f, 0.0f, // 左下角
 		-0.5f, 0.5f, 0.0f   // 左上角
 	};
 
-	unsigned int  indices[] = {  // note that we start from 0!
+	GLuint  indices[] = {  // note that we start from 0!
 		0, 1, 3,  // first Triangle
 		1, 2, 3   // second Triangle
 	};
 
-	unsigned int VBO, VAO, EBO;
+	GLuint VBO, VAO, EBO;
 
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -152,8 +176,9 @@ int main(void)
 	{
 		// input
 		// -----
-		processInput(window);
+		//processInput(window);
 
+		glfwPollEvents();
 		// render
 		// ------
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -169,7 +194,7 @@ int main(void)
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(window);
-		glfwPollEvents();
+		//glfwPollEvents();
 		//double time = glfwGetTime();
 	}
 	glDeleteVertexArrays(1, &VAO);
@@ -190,4 +215,11 @@ void processInput(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+}
+
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+{
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GL_TRUE);
 }
