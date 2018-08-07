@@ -18,8 +18,22 @@
     <ClCompile Include="..\Dependences\GLAD\src\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Hellow_Window.cpp">
+    <ClCompile Include="Hello_Triangle2.cpp">
       <Filter>资源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Hello_T riangle1.cpp">
+      <Filter>资源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Hello_T riangle3.cpp">
+      <Filter>资源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Hello_Triangle4.cpp">
+      <Filter>资源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Leader.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

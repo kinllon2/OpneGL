@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(solutionDir)Dependences\GLFW\include;$(solutionDir)Dependences\GLEW\include;$(solutionDir)Dependences\GLAD\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(solutionDir)Dependences\GLFW\include;$(solutionDir)Dependences\GLEW\include;$(solutionDir)Dependences\GLAD\include;$(solutionDir)Leaen_OpenGL</AdditionalIncludeDirectories>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <StringPooling>true</StringPooling>
     </ClCompile>
@@ -102,7 +102,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(solutionDir)Dependences\GLFW\include;$(solutionDir)Dependences\GLEW\include;$(solutionDir)Dependences\GLAD\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(solutionDir)Dependences\GLFW\include;$(solutionDir)Dependences\GLEW\include;$(solutionDir)Dependences\GLAD\include;$(solutionDir)Leaen_OpenGL</AdditionalIncludeDirectories>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <StringPooling>true</StringPooling>
     </ClCompile>
@@ -130,7 +130,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Dependences\GLAD\src\glad.c" />
-    <ClCompile Include="Hellow_Window.cpp" />
+    <ClCompile Include="Hello_T riangle1.cpp" />
+    <ClCompile Include="Hello_T riangle3.cpp" />
+    <ClCompile Include="Hello_Triangle2.cpp" />
+    <ClCompile Include="Hello_Triangle4.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Leader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
