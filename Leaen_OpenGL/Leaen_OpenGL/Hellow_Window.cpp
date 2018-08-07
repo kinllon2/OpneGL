@@ -135,6 +135,21 @@ int main(void)
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
+	//use one array to draw two triangle
+	//GLfloat vertices[] = {
+	//	// first triangle
+	//	-0.9f, -0.5f, 0.0f,  // left 
+	//	-0.0f, -0.5f, 0.0f,  // right
+	//	-0.45f, 0.5f, 0.0f,  // top 
+	//	// second triangle
+	//	 0.0f, -0.5f, 0.0f,  // left
+	//	 0.9f, -0.5f, 0.0f,  // right
+	//	 0.45f, 0.5f, 0.0f   // top 
+	//};
+
+
+
+
 	GLfloat  vertices[] = {
 		0.5f, 0.5f, 0.0f,   // срио╫г
 		0.5f, -0.5f, 0.0f,  // сроб╫г
@@ -189,7 +204,7 @@ int main(void)
 		glBindVertexArray(VAO);
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+		//glBindVertexArray(0);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
