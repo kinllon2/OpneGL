@@ -29,11 +29,12 @@ const GLchar* vertexShaderSource = "#version 330 core\n"
 "ourColor = color;\n"
 "}\0";
 const GLchar* fragmentShaderSource = "#version 330 core\n"
+"in vec3 ourColor;"
 "out vec4 color;\n"
-"uniform vec4 ourColor;\n"
+//"uniform vec4 ourColor;\n"
 "void main()\n"
 "{\n"
-"color = ourColor;\n"
+"color = vec4(ourColor, 1.0f);;\n"
 "}\n\0";
 
 // The MAIN function, from here we start the application and run the game loop
@@ -106,9 +107,9 @@ int main()
 	// Set up vertex data (and buffer(s)) and attribute pointers
 	GLfloat vertices[] = {
 		// Positions        
-		0.5f, -0.5f, 0.0f,  // Bottom Right
-		-0.5f, -0.5f, 0.0f,  // Bottom Left
-		0.0f,  0.5f, 0.0f   // Top 
+		0.5f, -0.5f, 0.0f,1.0f,0.0f,0.0f,  // Bottom Right
+		-0.5f, -0.5f, 0.0f,0.0f,1.0f,0.0f,  // Bottom Left
+		0.0f,  0.5f, 0.0f,0.0f,0.0f,1.0f   // Top 
 	};
 	GLuint VBO, VAO;
 	glGenVertexArrays(1, &VAO);
@@ -120,8 +121,12 @@ int main()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	// Position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
+
+	//color attribute
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(1);
 
 	glBindVertexArray(0); // Unbind VAO
 
