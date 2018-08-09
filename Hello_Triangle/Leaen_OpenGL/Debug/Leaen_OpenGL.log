@@ -1,3 +1,4 @@
 ﻿cl : 命令行 warning D9007: “/Gm”需要“/Zi 或 /ZI”；选项被忽略
-  Hello_Triangle4.cpp
-  Leaen_OpenGL.vcxproj -> E:\2018.7.30-2018.8.31\OpenGL\OpneGL\Leaen_OpenGL\Debug\Leaen_OpenGL.exe
+  glad.c
+LINK : warning LNK4098: 默认库“MSVCRT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
+  Leaen_OpenGL.vcxproj -> E:\2018.7.30-2018.8.31\OpenGL\OpneGL\Hello_Triangle\Debug\Leaen_OpenGL.exe
