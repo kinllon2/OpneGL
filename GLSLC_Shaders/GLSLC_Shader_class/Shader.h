@@ -6,9 +6,10 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <GL/glew.h>
+// 包含glew来获取所有的必须OpenGL头文件
 
-#include <GL/glew.h>; // 包含glew来获取所有的必须OpenGL头文件
-
+using namespace std;
 class Shader
 {
 public:
