@@ -2,7 +2,6 @@
 
 Shader::Shader(const GLchar* vertexPath, const GLchar* fragmentPath)
 {
-	GLuint Program;
 	std::string vertexCode;
 	std::string fragmentCode;
 	std::ifstream vShaderFile;
